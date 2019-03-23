@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/globalsign/mgo"
+	"github.com/go-chi/chi"
+	"net/http"
+	"os"
 	"time"
 )
 
@@ -33,6 +36,7 @@ func initMongo() (session *mgo.Session) {
 }
 
 func main() {
+	r := chi.NewRouter()
 	mongodb := initMongo()
 	fmt.Println("Mongodb Initialized")
 	dbs, err := mongodb.DatabaseNames()
@@ -40,4 +44,9 @@ func main() {
 		panic(err)
 	}
 	fmt.Println(dbs)
+
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("welcome"))
+	})
+	http.ListenAndServe(":"+os.Getenv("PORT"), r)
 }
