@@ -3,20 +3,41 @@ package main
 import (
 	"fmt"
 	"github.com/globalsign/mgo"
-	"github.com/go-chi/chi"
+	"time"
 )
 
-func main() {
-	r := chi.NewRouter()
+const (
+	host       = "localhost:27017"
+	database   = "db"
+	username   = ""
+	password   = ""
+	collection = "squares"
+)
 
-	session, err := mgo.Dial("mongodb://127.0.0.1:27017")
+func initMongo() (session *mgo.Session) {
+	info := &mgo.DialInfo{
+		Addrs:    []string{host},
+		Timeout:  60 * time.Second,
+		Database: database,
+		Username: username,
+		Password: password,
+	}
+
+	fmt.Println("initializing")
+	session, err := mgo.DialWithInfo(info)
+	fmt.Println("connected")
 	if err != nil {
-		fmt.Print(err)
+		panic(err)
 	}
+	return session
+}
 
-	dbs, dbErr := session.DatabaseNames()
-	if dbErr != nil {
-		fmt.Print(err)
+func main() {
+	mongodb := initMongo()
+	fmt.Println("Mongodb Initialized")
+	dbs, err := mongodb.DatabaseNames()
+	if err != nil {
+		panic(err)
 	}
-	fmt.Print(dbs)
+	fmt.Println(dbs)
 }
