@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  app: 
+    image: golang
+    volumes: 
+      - .:/go/src/holiday-movie-bff
+    working_dir: /go/src/holiday-movie-bff
+    command: go run main.go
