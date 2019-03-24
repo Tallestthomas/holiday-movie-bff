@@ -6,4 +6,15 @@ services:
     volumes: 
       - .:/go/src/holiday-movie-bff
     working_dir: /go/src/holiday-movie-bff
+    ports:
+      - "3000:3000"
     command: go run main.go
+  db:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - "mongodata:/data/db"
+
+volumes:
+  mongodata:
