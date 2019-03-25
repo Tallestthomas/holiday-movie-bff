@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/go-chi/chi"
-	"github.com/tallestthomas/holiday-movie-bff/models/mongo"
+	"holiday-movie-bff/models/mongo"
 	"net/http"
 )
 
