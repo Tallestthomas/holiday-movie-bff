@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/go-chi/chi"
-	"holiday-movie-bff/models"
+	"holiday-movie-bff/pkg"
 	"net/http"
 )
 
