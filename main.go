@@ -12,12 +12,14 @@ type App struct {
 }
 
 func main() {
-	var a App
-	var err error
 	r := chi.NewRouter()
-	a.session, err = mongo.NewSession()
+
+	mg, err := mongo.NewSession()
 	if err != nil {
 		panic(err)
 	}
+
+	defer mg.Close()
+
 	http.ListenAndServe(":3000", r)
 }

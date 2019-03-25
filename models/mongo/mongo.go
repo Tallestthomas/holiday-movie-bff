@@ -36,3 +36,15 @@ func NewSession() (*Session, error) {
 	}
 	return &Session{session}, err
 }
+
+// Copy a current Session
+func (s *Session) Copy() *Session {
+	return &Session{s.session.Copy()}
+}
+
+// Close a session
+func (s *Session) Close() {
+	if s.session != nil {
+		s.session.Close()
+	}
+}
