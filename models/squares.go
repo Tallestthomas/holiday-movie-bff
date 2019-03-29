@@ -2,8 +2,8 @@ package models
 
 import (
 	"encoding/json"
-	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
+	"holiday-movie-bff/pkg"
 	"net/http"
 )
 
@@ -14,17 +14,15 @@ type Square struct {
 }
 
 // GetSquares returns all squares
-func GetSquares(s *mgo.Session) func(w http.ResponseWriter, r *http.Request) {
-	session := s.Copy()
-
+func GetSquares(env *handler.Env, w http.ResponseWriter, r *http.Request) error {
+	session := env.DB.Copy()
 	c := session.DB("bingodb").C("squares")
 	var squares []Square
 	err := c.Find(bson.M{}).All(&squares)
 	if err != nil {
-		panic(err)
+		return handler.StatusError{Code: 500, Err: err}
 	}
 
-	return func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode(squares)
-	}
+	json.NewEncoder(w).Encode(squares)
+	return nil
 }
