@@ -37,7 +37,8 @@ func main() {
 		DB: session,
 	}
 
-	r.Handle("/squares", handler.Handler{Env: env, H: models.GetSquares})
+	r.Method("GET", "/squares", handler.Handler{Env: env, H: models.GetSquares})
+	r.Method("POST", "/squares", handler.Handler{Env: env, H: models.AddSquare})
 	defer session.Close()
 
 	http.ListenAndServe(":3000", r)
