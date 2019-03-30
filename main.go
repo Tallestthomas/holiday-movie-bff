@@ -38,6 +38,7 @@ func main() {
 	}
 
 	r.Method("GET", "/squares", handler.Handler{Env: env, H: models.GetSquares})
+	r.Method("GET", "/squares/{id}", handler.Handler{Env: env, H: models.GetSquare})
 	r.Method("POST", "/squares", handler.Handler{Env: env, H: models.AddSquare})
 	defer session.Close()
 
